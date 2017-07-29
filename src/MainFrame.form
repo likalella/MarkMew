@@ -7,7 +7,7 @@
     <properties/>
     <border type="none"/>
     <children>
-      <grid id="d9b5c" binding="pannel_bottom" layout-manager="BorderLayout" hgap="0" vgap="0">
+      <grid id="d9b5c" binding="panel_bottom" layout-manager="BorderLayout" hgap="0" vgap="0">
         <constraints border-constraint="South"/>
         <properties/>
         <border type="none"/>
@@ -36,23 +36,7 @@
               <preferredSize width="0" height="0"/>
             </properties>
             <border type="none"/>
-            <children>
-              <scrollpane id="da1ab">
-                <constraints>
-                  <tabbedpane title="Untitled"/>
-                </constraints>
-                <properties/>
-                <border type="none"/>
-                <children>
-                  <component id="f2713" class="javax.swing.JTextPane" binding="textEditor">
-                    <constraints/>
-                    <properties>
-                      <font size="14"/>
-                    </properties>
-                  </component>
-                </children>
-              </scrollpane>
-            </children>
+            <children/>
           </tabbedpane>
           <scrollpane id="898fc">
             <constraints>
