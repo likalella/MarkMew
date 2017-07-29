@@ -1,6 +1,4 @@
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 public class MainFrame {
     private JPanel panel_main;
@@ -36,15 +34,8 @@ public class MainFrame {
         panel_bottom.setBorder(BorderFactory.createEmptyBorder(4,6,4,6));
         stateLabel.setText("Hello, MarkMew!");
 
-        for(int i=0; i<5; i++)
-            tabbedPane.addTab("MarkMew"+(i+1), new MarkMew_Tab(tabbedPane, "MarkMew"+(i+1)));
-
-        tabbedPane.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                webView.setText("current : "+tabbedPane.getSelectedIndex() + "\n" + ((MarkMew_Tab)tabbedPane.getComponentAt(tabbedPane.getSelectedIndex())).print11()  );
-            }
-        });
+        MarkMew_Tab tmp = new MarkMew_Tab(tabbedPane, "Untitled");
+        tabbedPane.add("Untitled", tmp);
 
     }
 
@@ -60,4 +51,5 @@ public class MainFrame {
     public JEditorPane getWebView(){
         return webView;
     }
+
 }
