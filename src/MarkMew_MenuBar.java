@@ -1,32 +1,18 @@
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 
 public class MarkMew_MenuBar extends JMenuBar {
 
-    private JMenu menu_File;
-    private JMenu menu_Edit;
+    private MainFrame frame;
 
-    private JMenu item_Export;
-
-    private JMenuItem item_New;
-    private JMenuItem item_Open;
-    private JMenuItem item_Save;
-    private JMenuItem item_Save_As;
-    private JMenuItem item_Close;
-    private JMenuItem item_Export_html;
-    private JMenuItem item_Export_txt;
-    private JMenuItem item_Exit;
-
-    private JMenuItem item_Undo;
-    private JMenuItem item_Redo;
-    private JMenuItem item_Cut;
-    private JMenuItem item_Copy;
-    private JMenuItem item_Paste;
-    private JMenuItem item_Delete;
-    private JMenuItem item_Find;
-    private JMenuItem item_Select_All;
-
-    MarkMew_MenuBar(){
+    MarkMew_MenuBar(MainFrame frame){
         super();
+
+        this.frame = frame;
 
         // File Menu
         menu_File = new JMenu("File");
@@ -80,6 +66,67 @@ public class MarkMew_MenuBar extends JMenuBar {
         menu_Edit.add(item_Find);
         menu_Edit.add(item_Select_All);
 
+        setComponentListener();
+    }
+
+    private void setComponentListener(){
+
+        JTabbedPane tabbedPane = frame.getTabbedPane();
+        JLabel      stateLabel = frame.getStateLabel();
+
+        item_New.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tabbedPane.add("Untitled", new MarkMew_Tab(tabbedPane, "Untitled"));
+                stateLabel.setText("New tab is added");
+            }
+        });
+
+        item_Close.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MarkMew_Tab tab = (MarkMew_Tab) tabbedPane.getSelectedComponent();
+                if(!tab.getIsSaved()){
+                    // ask whether save or not
+                }
+
+                // remove tab
+                tabbedPane.remove(tabbedPane.getSelectedIndex());
+
+                // update indexing
+                int count = tabbedPane.getTabCount();
+                for(int i=0; i<count; i++){
+                    ((MarkMew_Tab)tabbedPane.getComponentAt(i)).setIndex(i);
+                }
+
+                stateLabel.setText("Select tab is removed");
+            }
+        });
 
     }
+
+
+    private JMenu menu_File;
+    private JMenu menu_Edit;
+
+    private JMenu item_Export;
+
+    private JMenuItem item_New;
+    private JMenuItem item_Open;
+    private JMenuItem item_Save;
+    private JMenuItem item_Save_As;
+    private JMenuItem item_Close;
+    private JMenuItem item_Export_html;
+    private JMenuItem item_Export_txt;
+    private JMenuItem item_Exit;
+
+    private JMenuItem item_Undo;
+    private JMenuItem item_Redo;
+    private JMenuItem item_Cut;
+    private JMenuItem item_Copy;
+    private JMenuItem item_Paste;
+    private JMenuItem item_Delete;
+    private JMenuItem item_Find;
+    private JMenuItem item_Select_All;
+
 }
