@@ -103,6 +103,57 @@ public class MarkMew_MenuBar extends JMenuBar {
             }
         });
 
+        item_Exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // ask whether save or not about all tabs
+
+                System.exit(0);
+            }
+        });
+
+        item_Open.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int count = 0;
+
+                JFileChooser openDialog = new JFileChooser();
+                openDialog.setMultiSelectionEnabled(true);
+                openDialog.setAcceptAllFileFilterUsed(false);
+                openDialog.addChoosableFileFilter(new FileNameExtensionFilter("Text File (*.txt)","txt"));
+                openDialog.addChoosableFileFilter(new FileNameExtensionFilter("Markdown File (*.md)","md"));
+
+                if(openDialog.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){
+
+                    File[] files = openDialog.getSelectedFiles();
+                    for(int i=0; i<files.length; i++){
+
+                        // is the file already opened?
+                        boolean duplication = false;
+                        for(int j=0; j<tabbedPane.getTabCount(); j++){
+                            if(((MarkMew_Tab)tabbedPane.getComponentAt(j)).compareFile(files[i])) {
+                                tabbedPane.setSelectedIndex(j);
+                                duplication = true;
+                                break;
+                            }
+                        }
+                        if(duplication) continue;
+
+                        MarkMew_Tab tab = new MarkMew_Tab(tabbedPane, files[i].getName());
+                        tab.openFile(files[i]);
+                        tabbedPane.add(files[i].getName(), tab);
+                        tabbedPane.setSelectedComponent(tab);
+
+                        count++;
+                    }
+
+                    stateLabel.setText(count+" file(s) opened and " + (files.length-count) + " file(s) already opened on MarkMew");
+
+                }
+            }
+        });
+
     }
 
 
