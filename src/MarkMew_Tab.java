@@ -28,6 +28,7 @@ public class MarkMew_Tab extends JPanel{
         index = parent.getTabCount();
 
         isSaved = false;
+        file = null;
 
         this.setLayout(new BorderLayout());
         this.add(mainPanel, BorderLayout.CENTER);
@@ -39,17 +40,25 @@ public class MarkMew_Tab extends JPanel{
 
         try{
             fileReader = new FileReader(file);
+            bufferedReader = new BufferedReader(fileReader);
+
+            String line;
+            String text = "";
+            while((line = bufferedReader.readLine())!=null)
+                text += line + "\n";
+
+            textEditor.setText(text);
         }
         catch(IOException e){
             e.printStackTrace();
         }
-
-
-
     }
 
-    public String print11(){
-        return "index : "+index+"\n";
+
+
+    public boolean compareFile(File f){
+        if(file==null) return false;
+        return file.equals(f);
     }
 
     public boolean getIsSaved(){
