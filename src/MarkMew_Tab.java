@@ -53,12 +53,32 @@ public class MarkMew_Tab extends JPanel{
                 text += line + "\n";
 
             textEditor.setText(text);
+            isSaved = true;
         }
         catch(IOException e){
             e.printStackTrace();
         }
     }
 
+
+    public void saveFile(String path){
+        if(path==null){
+            // save at file variable
+        }
+        else{
+            // save at path variable
+        }
+
+        isSaved = true;
+        tabPanel.saved();
+    }
+
+    public void unsaveFile(){
+        if(!isSaved) return;
+
+        isSaved = false;
+        tabPanel.unsaved();
+    }
 
 
     public boolean compareFile(File f){
