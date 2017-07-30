@@ -14,10 +14,12 @@ public class MarkMew_Tab extends JPanel{
     private int index;
 
     private boolean isSaved;
-    private File file;
 
+    private File file;
     FileReader fileReader;
     BufferedReader bufferedReader;
+
+    private Tab_Panel tabPanel;
 
     MarkMew_Tab(JTabbedPane _parent, String _title){
 
@@ -25,7 +27,6 @@ public class MarkMew_Tab extends JPanel{
 
         parent = _parent;
         title = _title;
-        index = parent.getTabCount();
 
         isSaved = false;
         file = null;
@@ -33,6 +34,10 @@ public class MarkMew_Tab extends JPanel{
         this.setLayout(new BorderLayout());
         this.add(mainPanel, BorderLayout.CENTER);
 
+        parent.add(title, this);
+        index = parent.indexOfComponent(this);
+
+        tabPanel = new Tab_Panel(parent, index);
     }
 
     public void openFile(File _file){

@@ -77,7 +77,7 @@ public class MarkMew_MenuBar extends JMenuBar {
         item_New.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                tabbedPane.add("Untitled", new MarkMew_Tab(tabbedPane, "Untitled"));
+                new MarkMew_Tab(tabbedPane, "Untitled");
                 stateLabel.setText("New tab is added");
             }
         });

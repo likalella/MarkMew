@@ -34,8 +34,7 @@ public class MainFrame {
         panel_bottom.setBorder(BorderFactory.createEmptyBorder(4,6,4,6));
         stateLabel.setText("Hello, MarkMew!");
 
-        MarkMew_Tab tmp = new MarkMew_Tab(tabbedPane, "Untitled");
-        tabbedPane.add("Untitled", tmp);
+        new MarkMew_Tab(tabbedPane, "Untitled");
 
     }
 
