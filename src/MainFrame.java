@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.event.*;
 
 public class MainFrame {
     private JPanel panel_main;
@@ -30,8 +31,18 @@ public class MainFrame {
         splitPane.setOneTouchExpandable(true);
         splitPane.setContinuousLayout(true);
 
+        tabbedPane.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if(e.getClickCount()==2){
+                    tabbedPane.setSelectedComponent(new MarkMew_Tab(tabbedPane, "Untitled"));
+                }
+            }
+        });
+
         // state bar setting
-        panel_bottom.setBorder(BorderFactory.createEmptyBorder(4,6,4,6));
+        panel_bottom.setBorder(BorderFactory.createEmptyBorder(4, 6, 4, 6));
         stateLabel.setText("Hello, MarkMew!");
 
         new MarkMew_Tab(tabbedPane, "Untitled");
