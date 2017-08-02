@@ -1,4 +1,5 @@
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicSplitPaneUI;
 import java.awt.event.*;
 
 public class MainFrame {
@@ -30,6 +31,14 @@ public class MainFrame {
         splitPane.setResizeWeight(0.5);
         splitPane.setOneTouchExpandable(true);
         splitPane.setContinuousLayout(true);
+        ((BasicSplitPaneUI)splitPane.getUI()).getDivider().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                //super.mouseClicked(e);
+                if(e.getClickCount()==2)
+                    splitPane.setDividerLocation(0.5);
+            }
+        });
 
         tabbedPane.addMouseListener(new MouseAdapter() {
             @Override
