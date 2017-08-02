@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -74,10 +73,13 @@ public class MarkMew_MenuBar extends JMenuBar {
         JTabbedPane tabbedPane = frame.getTabbedPane();
         JLabel      stateLabel = frame.getStateLabel();
 
+        String[] filter_desc = new String[]{"Markdown File (*.md)", "Text File (*.txt)"};
+        String[] filter_ext  = new String[]{"md", "txt"};
+
         item_New.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new MarkMew_Tab(tabbedPane, "Untitled");
+                tabbedPane.setSelectedComponent(new MarkMew_Tab(tabbedPane, "Untitled"));
                 stateLabel.setText("New tab is added");
             }
         });
@@ -121,8 +123,8 @@ public class MarkMew_MenuBar extends JMenuBar {
                 JFileChooser openDialog = new JFileChooser();
                 openDialog.setMultiSelectionEnabled(true);
                 openDialog.setAcceptAllFileFilterUsed(false);
-                openDialog.addChoosableFileFilter(new FileNameExtensionFilter("Text File (*.txt)","txt"));
-                openDialog.addChoosableFileFilter(new FileNameExtensionFilter("Markdown File (*.md)","md"));
+                for(int i=0; i<filter_desc.length; i++)
+                    openDialog.addChoosableFileFilter(new FileNameExtensionFilter(filter_desc[i], filter_ext[i]));
 
                 if(openDialog.showOpenDialog(null) == JFileChooser.APPROVE_OPTION){
 
@@ -142,7 +144,6 @@ public class MarkMew_MenuBar extends JMenuBar {
 
                         MarkMew_Tab tab = new MarkMew_Tab(tabbedPane, files[i].getName());
                         tab.openFile(files[i]);
-                        tabbedPane.add(files[i].getName(), tab);
                         tabbedPane.setSelectedComponent(tab);
 
                         count++;
@@ -154,6 +155,75 @@ public class MarkMew_MenuBar extends JMenuBar {
             }
         });
 
+        item_Save.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                MarkMew_Tab current = (MarkMew_Tab)tabbedPane.getSelectedComponent();
+                if(current.hasFile()) {
+                    current.saveFile(null);
+                    return;
+                }
+
+                JFileChooser saveDialog = new JFileChooser();
+                saveDialog.setAcceptAllFileFilterUsed(false);
+                for(int i=0; i<filter_desc.length; i++)
+                    saveDialog.addChoosableFileFilter(new FileNameExtensionFilter(filter_desc[i], filter_ext[i]));
+
+                if(saveDialog.showSaveDialog(null)==JFileChooser.APPROVE_OPTION){
+
+                    if(saveDialog.getSelectedFile().exists()){
+                        int result = JOptionPane.showConfirmDialog(null,
+                                "Do you want to overwrite the file?",
+                                "File Duplication",
+                                JOptionPane.YES_NO_OPTION);
+
+                        if(result != JOptionPane.YES_OPTION) return;
+                    }
+
+                    // get file path
+                    String path = saveDialog.getSelectedFile().getAbsolutePath();
+                    String extension = ((FileNameExtensionFilter)saveDialog.getFileFilter()).getExtensions()[0];
+                    if(!path.endsWith(extension))
+                        path += "." + extension;
+
+                    ((MarkMew_Tab)tabbedPane.getSelectedComponent()).saveFile(path);
+                    stateLabel.setText("Saved successfully on " + path);
+                }
+            }
+        });
+
+        item_Save_As.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser saveDialog = new JFileChooser();
+                saveDialog.setAcceptAllFileFilterUsed(false);
+                for(int i=0; i<filter_desc.length; i++)
+                    saveDialog.addChoosableFileFilter(new FileNameExtensionFilter(filter_desc[i], filter_ext[i]));
+
+                if(saveDialog.showSaveDialog(null)==JFileChooser.APPROVE_OPTION) {
+
+                    if (saveDialog.getSelectedFile().exists()) {
+                        int result = JOptionPane.showConfirmDialog(null,
+                                "Do you want to overwrite the file?",
+                                "File Duplication",
+                                JOptionPane.YES_NO_OPTION);
+
+                        if (result != JOptionPane.YES_OPTION) return;
+                    }
+
+                    // get file path
+                    String path = saveDialog.getSelectedFile().getAbsolutePath();
+                    String extension = ((FileNameExtensionFilter) saveDialog.getFileFilter()).getExtensions()[0];
+                    if (!path.endsWith(extension))
+                        path += "." + extension;
+
+                    ((MarkMew_Tab) tabbedPane.getSelectedComponent()).saveFile(path);
+
+                    stateLabel.setText("Saved successfully on" + path);
+                }
+            }
+        });
     }
 
 

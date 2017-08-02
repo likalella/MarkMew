@@ -1,9 +1,8 @@
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 public class MarkMew_Tab extends JPanel{
     private JTextPane textEditor;
@@ -16,8 +15,8 @@ public class MarkMew_Tab extends JPanel{
     private boolean isSaved;
 
     private File file;
-    FileReader fileReader;
-    BufferedReader bufferedReader;
+    private FileReader fileReader;
+    private BufferedReader bufferedReader;
 
     private Tab_Panel tabPanel;
 
@@ -37,7 +36,26 @@ public class MarkMew_Tab extends JPanel{
         parent.add(title, this);
         index = parent.indexOfComponent(this);
 
-        tabPanel = new Tab_Panel(parent, index);
+        tabPanel = new Tab_Panel(parent, this, index);
+
+        textEditor.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                unsaveFile();
+
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                unsaveFile();
+
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                unsaveFile();
+            }
+        });
     }
 
     public void openFile(File _file){
@@ -53,6 +71,7 @@ public class MarkMew_Tab extends JPanel{
                 text += line + "\n";
 
             textEditor.setText(text);
+            tabPanel.saved();
             isSaved = true;
         }
         catch(IOException e){
@@ -62,11 +81,29 @@ public class MarkMew_Tab extends JPanel{
 
 
     public void saveFile(String path){
-        if(path==null){
-            // save at file variable
+
+        try {
+
+            if(path==null){
+                // save at file variable
+                FileWriter fw = new FileWriter(file);
+                fw.write(textEditor.getText());
+                fw.close();
+            }
+            else{
+                // save at path variable
+                file = new File(path);
+                FileWriter fw = new FileWriter(file);
+                fw.write(textEditor.getText());
+                fw.close();
+
+                // change title (for save as)
+                title = file.getName();
+                tabPanel.setTitle(title);
+            }
         }
-        else{
-            // save at path variable
+        catch(IOException e){
+            e.printStackTrace();
         }
 
         isSaved = true;
@@ -80,6 +117,15 @@ public class MarkMew_Tab extends JPanel{
         tabPanel.unsaved();
     }
 
+    public boolean hasFile(){
+        if(file == null) return false;
+        return true;
+    }
+
+    public boolean hasContent(){
+        if(textEditor.getText().equals("")) return false;
+        return true;
+    }
 
     public boolean compareFile(File f){
         if(file==null) return false;
