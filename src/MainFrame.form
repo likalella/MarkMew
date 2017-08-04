@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="MainFrame">
+  <grid id="27dc6" binding="panel_main" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="20" y="20" width="500" height="400"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="d9b5c" binding="panel_bottom" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="South"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="1062e" class="javax.swing.JLabel" binding="stateLabel">
+            <constraints border-constraint="Center"/>
+            <properties>
+              <text value="Label"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <splitpane id="39e0" binding="splitPane">
+        <constraints border-constraint="Center"/>
+        <properties>
+          <dividerLocation value="250"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <tabbedpane id="d8b80" binding="tabbedPane">
+            <constraints>
+              <splitpane position="left"/>
+            </constraints>
+            <properties>
+              <minimumSize width="0" height="0"/>
+              <preferredSize width="0" height="0"/>
+            </properties>
+            <border type="none"/>
+            <children/>
+          </tabbedpane>
+          <scrollpane id="898fc">
+            <constraints>
+              <splitpane position="right"/>
+            </constraints>
+            <properties>
+              <horizontalScrollBarPolicy value="31"/>
+              <minimumSize width="0" height="0"/>
+              <preferredSize width="0" height="0"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="a38a5" class="javax.swing.JEditorPane" binding="webView">
+                <constraints/>
+                <properties>
+                  <dragEnabled value="false"/>
+                  <editable value="false"/>
+                  <font size="14"/>
+                  <minimumSize width="0" height="0"/>
+                  <preferredSize width="0" height="0"/>
+                  <text value="webView"/>
+                </properties>
+              </component>
+            </children>
+          </scrollpane>
+        </children>
+      </splitpane>
+    </children>
+  </grid>
+</form>
